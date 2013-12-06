@@ -6,6 +6,7 @@
 	"require": {
 		"laravel/framework": "4.0.*"
 		 ,"way/generators": "dev-master"
+		 ,"phpunit/phpunit": "3.7.*"
 	},
 	"autoload": {
 		"classmap": [
