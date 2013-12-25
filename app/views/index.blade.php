@@ -13,6 +13,43 @@ Wellcome.  If you can see this page you have succesfully installed:
     	<li>amCharts version 3.0</li>
     	<li>Generator (command line tools for laravel)</li>
     </ul>
+    this also has the intervention/image package. <br>
+    Mode of use: http://intervention.olivervogel.net/image<br>
+    Open a php tag <br>
+    Create a name of edited image (not equal to original as it will replace it). <br>
+    <pre>
+    &lt;?php
+    $original='MedjugorjeMessage.jpg';
+    $imgpath='assets/img/';
+    $displayo=URL::to($imgpath.$original);
+    $newimg='smallermedjugorje.jpg';
+    // resize the image to a width of 100 and constrain aspect ratio (auto height)
+	$img = Image::make('public/'.$imgpath.$original)->resize(100, null, true)->save('public/'.$imgpath.$newimg);
+	$displayn=URL::to($imgpath.$newimg);
+?&gt;
+    </pre>
+    <?php
+    $original='MedjugorjeMessage.jpg';
+    $imgpath='assets/img/';
+    $displayo=URL::to($imgpath.$original);
+    $newimg='smallermedjugorje.jpg';
+
+    // resize the image to a width of 100 and constrain aspect ratio (auto height)
+	$img = Image::make('public/'.$imgpath.$original)->resize(100, null, true)->save('public/'.$imgpath.$newimg);
+	$displayn=URL::to($imgpath.$newimg);
+    ?>
+    original picture <code>&lt;img src="{$displayo}" alt=""&gt;</code>
+    <br>
+    <img src="{{$displayo}}" > <img src="{{$displayo}}" class='img-rounded'> <img src="{{$displayo}}" class='img-circle'>
+    <br>
+    New picture original picture <code>&lt;img src="{$displayn}" alt=""&gt;</code>
+    <br>
+    <img src="{{$displayn}}" > <img src="{{$displayn}}" class='img-polaroid'>
+    <br>
+    <br>
+    <br>
+
+
 We wish you a nice work today.
 @stop
 
