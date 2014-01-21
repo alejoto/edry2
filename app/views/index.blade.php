@@ -6,6 +6,7 @@ Wellcome.  If you can see this page you have succesfully installed:
     <ul>
     	<li>Laravel framework version 4.0</li>
     	<li>jQuery version 10.2</li>
+        <li>hmd.css (some css classes created by HMD)</li>
     	<li>Datepicker bootstrap <input type="text" class='datepicker'></li>
     	<li>Timepicker bootstrap <input type="text" class='timepicker'></li>
     	<li>HMD validator (this example accepts only numbers)<input type="text" id='onlynumbers'></li>
