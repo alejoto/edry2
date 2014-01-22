@@ -1,7 +1,4 @@
-
 <h1 id='editgrouptitle'>Edit group</h1>
-
-
 
 <table class='table table-hover'>
 	<tr>
@@ -13,8 +10,13 @@
 	@foreach(Sentry::findAllGroups() as $g)
 		<tr>
 			<td>
-				{{$g->name}}
-				<input type="text" id="gnameinput{{$g->id}}" value='{{$g->name}}'>
+				<div id="groupeditnamelabel{{$g->id}}">
+					{{$g->name}}
+				</div>
+				<div id="groupeditnameinput{{$g->id}}" class="hmdhide">
+					<input type="text" id="gnameinput{{$g->id}}" value='{{$g->name}}'>
+				</div>
+				
 			</td>
 			<td>
 				<div id="grouppermissions{{$g->id}}">
@@ -68,17 +70,20 @@
 				<div id="groupeditbuttons{{$g->id}}" class='hmdhide'>
 					<a href="" id="cancelgroupedit{{$g->id}}">Cancel</a>
 					<a href="" id="confirmgroupedit{{$g->id}}">Save</a>
-					<div id="checkedpermissions{{$g->id}}" class='hmdhider'></div>
+					<div id="checkedpermissions{{$g->id}}" ></div>
 				</div>
 				
 			</td>
 			<td>
-				<a href="">Delete</a>
+				<a href="" id='groupdelete{{$g->id}}'>Delete</a>
+				<div id="groupdeletebuttons{{$g->id}}" class="hmdhide">
+					<a href="" id='confirmgroupdelete{{$g->id}}'>confirm</a>
+					<a href="" id='cancelgroupdelete{{$g->id}}'>cancel</a>
+				</div>
 			</td>
 		</tr>
 		<?php 
 		$arraykeys=array();
-		//unset($arraykeys); 
 		?>
 	@endforeach
 </table>

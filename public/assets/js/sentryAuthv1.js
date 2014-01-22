@@ -173,6 +173,8 @@ $(function(){
 			$('#changegrouppermissions'+id).show('fast');
 			$('#grouppermissions'+id).hide('fast');
 			$('#groupeditbuttons'+id).show();
+			$('#groupeditnamelabel'+id).hide();
+			$('#groupeditnameinput'+id).show();
 			$(this).hide();
 		});
 	}
@@ -184,6 +186,35 @@ $(function(){
 			$('#grouppermissions'+id).show('fast');
 			$('#groupeditbuttons'+id).hide();
 			$('#groupedit'+id).show();
+			$('#groupeditnamelabel'+id).show();
+			$('#groupeditnameinput'+id).hide();
+		});
+	}
+
+	function groupdeletebuttons(id){
+		$('#groupdelete'+id).click(function(e){
+			e.preventDefault();
+			$('#groupdeletebuttons'+id).show();
+			$('#groupdelete'+id).hide();
+		});
+	}
+
+	function cancelgroupdelete(id){
+		$('#cancelgroupdelete'+id).click(function(e){
+			e.preventDefault();
+			$('#groupdeletebuttons'+id).hide();
+			$('#groupdelete'+id).show();
+		});
+	}
+
+	function confirmgroupdelete(id){
+		$('#confirmgroupdelete'+id).click(function(e){
+			e.preventDefault();
+			var base=$('#base').html();
+			$.post(base+'/ajaxauth/groupdelete',{id:id},function(d){
+				$('#groupeditnamelabel'+id).show();
+				$('#groupeditnamelabel'+id).html(d);
+			});
 		});
 	}
 
@@ -192,11 +223,12 @@ $(function(){
 		id=id.replace('groupedit','');
 		groupedit(id);
 		cancelgroupedit(id);
+		groupdeletebuttons(id);
+		cancelgroupdelete(id);
+		confirmgroupdelete(id);
 	});
 
-	/*$('.permissiongroup').each(function(){
-		
-	});*/
+
 
 	$('.parentgroupeditor').each(function(){
 		var parent_id=$(this).attr('id');
@@ -234,6 +266,35 @@ $(function(){
 			id=id.replace('editpermissiongroup','');
 			savechangesindrouppermissions(parent_id,id);
 		});
-		//
 	});
+
+	/*Subscribe*/
+
+	$('#subscribe').click(function(e){
+		e.preventDefault();
+		var semail =$('#semail').val();
+		var spwd=$('#spwd').val();
+		var base=$('#base').html();
+		$.post(base+'/ajaxauth/subscribe',{semail:semail,spwd:spwd},function(d){
+			$('#subscriberesult').html(d);
+		});
+	});
+
+	/*Log in*/
+	$('#login').click(function(e){
+		e.preventDefault();
+		var	emaillogin=$('#emaillogin').val();
+		var pwslogin=$('#pwslogin').val();
+		var base=$('#base').html();
+		$.post(base+'/ajaxauth/login',{emaillogin:emaillogin,pwslogin:pwslogin},function(d){
+			if (d=='') {
+				window.location.href=base+'/auth/logged';
+			}
+			else {
+				$('#loginresult').html(d);
+			}
+		});
+		
+	});
+
 });

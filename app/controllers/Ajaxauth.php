@@ -113,6 +113,23 @@ class Ajaxauth extends BaseController {
 		
 	}
 
+	public function postGroupdelete () {
+		$id=$_POST['id'];
+
+		try
+		{
+		    // Find the group using the group id
+		    $group = Sentry::findGroupById($id);
+
+		    // Delete the group
+		    $group->delete();
+		}
+		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e)
+		{
+		    return 'Group was not found.';
+		}
+	}
+
 	public function postSubscribe () {
 		$email=$_POST['semail'];
 		$password=$_POST['spwd'];
@@ -126,7 +143,7 @@ class Ajaxauth extends BaseController {
 		    ));
 
 		    // Find the group using the group id
-		    $adminGroup = Sentry::findGroupById(1);
+		    $adminGroup = Sentry::findGroupById(1);//Change as default the lowest user profile
 
 		    // Assign the group to the user
 		    $user->addGroup($adminGroup);
@@ -147,5 +164,53 @@ class Ajaxauth extends BaseController {
 		{
 		    return  'Group was not found.';
 		}
+	}
+
+	public function postLogin () {
+		$emaillogin=$_POST['emaillogin'];
+		$pwslogin=$_POST['pwslogin'];
+		//return 'test 1';
+		try
+		{
+		    // Set login credentials
+		    $credentials = array(
+		        'email'    => $emaillogin,
+		        'password' => $pwslogin,
+		    );
+
+		    // Try to authenticate the user
+		    $user = Sentry::authenticate($credentials, false);
+		}
+		catch (Cartalyst\Sentry\Users\LoginRequiredException $e)
+		{
+		    echo 'Login field is required.';
+		}
+		catch (Cartalyst\Sentry\Users\PasswordRequiredException $e)
+		{
+		    echo 'Password field is required.';
+		}
+		catch (Cartalyst\Sentry\Users\WrongPasswordException $e)
+		{
+		    echo 'Wrong password, try again.';
+		}
+		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+		{
+		    echo 'User was not found.';
+		}
+		catch (Cartalyst\Sentry\Users\UserNotActivatedException $e)
+		{
+		    echo 'User is not activated.';
+		}
+
+		// The following is only required if throttle is enabled
+		catch (Cartalyst\Sentry\Throttling\UserSuspendedException $e)
+		{
+		    echo 'User is suspended.';
+		}
+		catch (Cartalyst\Sentry\Throttling\UserBannedException $e)
+		{
+		    echo 'User is banned.';
+		}
+		
 	}
 }
