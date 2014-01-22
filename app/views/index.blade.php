@@ -13,6 +13,7 @@ Wellcome.  If you can see this page you have succesfully installed:
     	<li>Twitter Bootstrap version 2.3</li>
     	<li>amCharts version 3.0</li>
     	<li>Generator (command line tools for laravel)</li>
+        <li>Sentry Auth system BEFORE GOING TO THIS LINK YOU MUST RUN A MIGRATION! <a href="{{URL::to('auth')}}">go to this link</a></li>
     </ul>
     this also has the intervention/image package. <br>
     Mode of use: http://intervention.olivervogel.net/image<br>
@@ -36,8 +37,8 @@ Wellcome.  If you can see this page you have succesfully installed:
     $newimg='smallermedjugorje.jpg';
 
     // resize the image to a width of 100 and constrain aspect ratio (auto height)
-	$img = Image::make('public/'.$imgpath.$original)->resize(100, null, true)->save('public/'.$imgpath.$newimg);
-	$displayn=URL::to($imgpath.$newimg);
+	//$img = Image::make('public/'.$imgpath.$original)->resize(100, null, true)->save('public/'.$imgpath.$newimg);
+	//$displayn=URL::to($imgpath.$newimg);
     ?>
     original picture <code>&lt;img src="{$displayo}" alt=""&gt;</code>
     <br>
@@ -45,7 +46,7 @@ Wellcome.  If you can see this page you have succesfully installed:
     <br>
     New picture original picture <code>&lt;img src="{$displayn}" alt=""&gt;</code>
     <br>
-    <img src="{{$displayn}}" > <img src="{{$displayn}}" class='img-polaroid'>
+    <img src="{{--$displayn--}}" > <img src="{{--$displayn--}}" class='img-polaroid'>
     <br>
     <br>
     <br>

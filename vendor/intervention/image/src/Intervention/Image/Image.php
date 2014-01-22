@@ -77,13 +77,6 @@ class Image
     protected $original;
 
     /**
-     * Identifier for cached images
-     *
-     * @var boolean
-     */
-    public $cached = false;
-
-    /**
      * Result of image after encoding
      *
      * @var string
@@ -114,6 +107,11 @@ class Image
                 // image properties come from binary image string
                 $this->initFromString($source);
 
+            } elseif (filter_var($source, FILTER_VALIDATE_URL)) {
+
+                // image will be fetched from url before init
+                $this->initFromString(file_get_contents($source));
+
             } else {
 
                 // image properties come from image file
@@ -135,7 +133,7 @@ class Image
      */
     public static function make($source)
     {
-        return new Image($source);
+        return new static($source);
     }
 
     /**
@@ -148,7 +146,7 @@ class Image
      */
     public static function canvas($width, $height, $bgcolor = null)
     {
-        return new Image(null, $width, $height, $bgcolor);
+        return new static(null, $width, $height, $bgcolor);
     }
 
     /**
@@ -159,7 +157,7 @@ class Image
      */
     public static function raw($string)
     {
-        return new Image($string);
+        return new static($string);
     }
 
     /**
@@ -182,10 +180,10 @@ class Image
         }
 
         // Create image and run callback
-        $image = new \Intervention\Image\ImageCache;
-        $image = is_callable($callback) ? $callback($image) : $image;
+        $imagecache = new \Intervention\Image\ImageCache;
+        $imagecache = is_callable($callback) ? $callback($imagecache) : $imagecache;
 
-        return $image->get($lifetime, $returnObj);
+        return $imagecache->get($lifetime, $returnObj);
     }
 
     /**
@@ -1415,7 +1413,7 @@ class Image
      */
     public function encode($format = null, $quality = 90)
     {
-        $format = is_null($format) ? $this->type : $format;
+        $format = is_null($format) ? $this->mime : $format;
 
         if ($quality < 0 || $quality > 100) {
             throw new Exception\ImageQualityException('Quality of image must range from 0 to 100.');
@@ -1429,6 +1427,7 @@ class Image
                 break;
 
             case 'gif':
+            case 'image/gif':
             case IMAGETYPE_GIF:
                 imagegif($this->resource);
                 $this->type = IMAGETYPE_GIF;
@@ -1436,6 +1435,7 @@ class Image
                 break;
 
             case 'png':
+            case 'image/png':
             case IMAGETYPE_PNG:
                 $quality = round($quality / 11.11111111111); // transform quality to png setting
                 imagealphablending($this->resource, false);
@@ -1448,6 +1448,8 @@ class Image
             default:
             case 'jpg':
             case 'jpeg':
+            case 'image/jpg':
+            case 'image/jpeg':
             case IMAGETYPE_JPEG:
                 imagejpeg($this->resource, null, $quality);
                 $this->type = IMAGETYPE_JPEG;
@@ -1831,6 +1833,7 @@ class Image
         }
 
         $this->resource = $resource;
+        $this->mime = finfo_buffer(finfo_open(FILEINFO_MIME_TYPE), $string);
         $this->width = imagesx($this->resource);
         $this->height = imagesy($this->resource);
         $this->original['width'] = $this->width;

@@ -5,6 +5,7 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.0.*"
+		 ,"cartalyst/sentry": "2.0.*"
 		 ,"way/generators": "dev-master"
 		 ,"phpunit/phpunit": "3.7.*"
 		 ,"intervention/image": "dev-master"

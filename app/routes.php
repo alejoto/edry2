@@ -16,3 +16,6 @@ Route::get('/', function()
 	return View::make('index')
 	->with('title','wellcome');
 });
+
+Route::controller('auth','AuthController');
+Route::controller('ajaxauth','Ajaxauth');

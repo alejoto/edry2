@@ -8,7 +8,8 @@
 	{{HTML::style('assets/css/bootstrap-responsive.css');}}
 	{{HTML::style('assets/css/sticky-footer-navbar.css');}}
 	{{HTML::style('assets/css/datepicker.css');}} 
-	{{HTML::style('assets/css/bootstrap-timepicker.css');}} 
+	{{HTML::style('assets/css/bootstrap-timepicker.css');}}
+	{{HTML::style('assets/css/hmd.css');}} 
 
 </head>
     <body>
@@ -37,6 +38,7 @@
 {{HTML::script('assets/js/hmd_valid.js');}}
 {{HTML::script('assets/js/bootstrap-datepicker.js');}}
 {{HTML::script('assets/js/bootstrap-timepicker.js');}}
+{{HTML::script('assets/js/sentryAuthv1.js');}}
 
 {{--Put nexts scripts only on pages that will do charts, inside 'scripts' section--}}
 {{--HTML::script('assets/js/amcharts_3.1.1/amcharts/amcharts.js');--}} 
