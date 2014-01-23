@@ -249,4 +249,61 @@ class Ajaxauth extends BaseController {
 			echo 'User was not found.';
 		}
 	}
+
+	public function postResetpwd () {
+		$email=$_POST['email'];
+		$user = Sentry::findUserByLogin($email);
+		try
+		{
+		    //
+		    $resetCode = $user->getResetPasswordCode();// Get the password reset code
+		    $link='<a href="'.URL::to('auth/resetpwd').'?key='.$resetCode.
+			'">Use this link to reset password</a>';
+			//Message data
+			$mssgdata=array('link'   =>   $link);
+			//Email data
+			$maildata=array(
+			    'recipient'		=>    $email
+			   , 'r_name'		=>    'HMD user'
+			   , 'sender'		=>    'support@healmydisease.com'
+			   , 's_name'		=>    'The HMD team'
+			   , 'subject'		=>    'Reset password request'
+			);
+			Mail::send(   'emails.resetpwd',   $mssgdata,  function($message) use ($maildata) {
+				$message->to($maildata['recipient'],$maildata['r_name'])
+						->from($maildata['sender'],$maildata['s_name'])
+						->subject($maildata['subject']);
+			});
+			return 1;
+		}
+		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+		{
+		    return 2;
+		}
+	}
+
+	public function postChangepwd () {
+		$email=Input::get('confirm_email');
+		$pwd=Input::get('resetpwd_new_password');
+		$key=Input::get('get_reset_key');
+		
+		try{
+			$user = Sentry::findUserByLogin($email);
+			if ($user->checkResetPasswordCode($key)) {
+				$credentials = array(
+		        'email'    => $email,
+		        'password' => $pwd,
+		    	);
+		    	//$user = Sentry::authenticate($credentials, false);
+			 	return Redirect::to('auth/logged');
+			}
+			else{
+				return Redirect::to('auth/resetpwd?mssg=wrong');
+			}
+		}
+		catch(Cartalyst\Sentry\Users\UserNotFoundException $e){
+			return Redirect::to('auth/resetpwd?key='.$key.'&mssg=noexist');
+		}
+		
+	}
 }

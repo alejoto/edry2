@@ -332,4 +332,74 @@ $(function(){
 			//
 		});
 	});
+
+	//Request for resetting password 
+	$('#resetpassword').click(function(e){
+		e.preventDefault();
+		//$('#resetpassword_label').hide();
+		$('#activate_subscribe_form').hide('fast');
+		$('#start_subscribe').hide('fast');
+		$('#resetpasswordrequest').show('fast');
+		
+	});
+
+	valid_email('email_to_be_reseted','email_to_be_reseted_msg');
+
+	//Cancel request for resetting password
+	$('#cancel_password_reset').click(function(e){
+		e.preventDefault();
+		$('#email_to_be_reseted').val('');
+		$('#confirm_email_to_be_reseted').val('');
+		$('#resetpassword_label').html('');
+		$('#start_subscribe').show('fast');
+		$('#resetpasswordrequest').hide('fast');
+	});
+
+	//Reset password
+	$('#confirm_reset_password').click(function(e){
+		e.preventDefault();
+		var email=$('#email_to_be_reseted').val();
+		var confirm=$('#confirm_email_to_be_reseted').val();
+		if (email.trim()=='') {
+			$('#resetpassword_label').html('Enter email please');
+		}
+		else if (email!=confirm) {
+			$('#resetpassword_label').html('Entered email does not match with confirmation.');
+		}
+		else //if (email==confirm&&email!='') 
+		{
+			$('#resetpassword_label').html('');
+			$('#email_to_be_reseted').hide();
+			$('#confirm_email_to_be_reseted').hide();
+			$('#reset_pwd_btns').hide();
+			$('#progress_bar_for_reset_pwd').show();
+			var base=$('#base').html();
+			$.post(base+'/ajaxauth/resetpwd',{email:email},function(d){
+				if (d==1) {
+					$('#email_to_be_reseted').val('');
+					$('#confirm_email_to_be_reseted').val('');
+					$('#resetpassword_label').html('PASSWORD RESET: '
+						+'Please follow the instructions that were sent to your email '
+						+'in order to reset your password.');
+
+					$('#email_to_be_reseted').show();
+					$('#confirm_email_to_be_reseted').show();
+					$('#progress_bar_for_reset_pwd').hide();
+					$('#reset_pwd_btns').show();
+
+					$('#start_subscribe').show('fast');
+					$('#resetpasswordrequest').hide('fast');
+				}
+				else if (d==2) {
+					$('#email_does_not_exist').html('Sorry, email was not '
+						+'found in our database. Try again or subscribe '
+						+'as new user.');
+					$('#email_to_be_reseted').show();
+					$('#confirm_email_to_be_reseted').show();
+					$('#progress_bar_for_reset_pwd').hide();
+					$('#reset_pwd_btns').show();
+				}
+			});
+		}	
+	});
 });

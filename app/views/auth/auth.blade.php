@@ -16,8 +16,10 @@ All auth process in only one page (this) in order to unify in dry4
 
 @include('auth.b6_basicuseredition')
 
+@include('auth.b7_loginandpwdreset')
 
 
+<br><br>
 @stop
 
 

@@ -21,4 +21,16 @@ class AuthController extends BaseController {
 		return Redirect::to('/auth');
 		
 	}
+
+	public function getResetpwd () {
+		if (isset($_GET['key'])) {
+			$key=$_GET['key'];
+			return View::make('auth.resetpwd')
+			->with('title','Reset password')
+			;
+		}
+		else  {
+			return Redirect::to('/auth');
+		}
+	}
 }
