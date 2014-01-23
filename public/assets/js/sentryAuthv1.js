@@ -294,7 +294,42 @@ $(function(){
 				$('#loginresult').html(d);
 			}
 		});
-		
 	});
 
+	//change password
+	$('#confirmchangingpassword').click(function(e){
+		e.preventDefault();
+		var id=$(this).attr('uid');
+		var pwd=$('#changepassword').val();
+		var pwd2=$('#matchchangepassword').val();
+		if (pwd==pwd2) {
+			var base=$('#base').html();
+			$.post(base+'/ajaxauth/changepassword',{id:id,pwd:pwd},function(d){
+				if (d==1) {
+					$('#changepasswordresult').html('Password succesfully changed');
+					$('#changepassword').val('');
+					$('#matchchangepassword').val('');
+				}
+				else if (d==2) {}
+				else {
+					$('#changepasswordresult').html(d);
+				}
+			});
+		}
+		else {
+			$('#changepasswordresult').html('Password and confirmation do not match.');
+		}	
+	});
+
+	//Update user name
+	$('#confirmupdatingusername').click(function(e){
+		e.preventDefault();
+		var id=$(this).attr('uid');
+		var first_name=$('#updateuserfirst_name').val();
+		var last_name=$('#updateuserlast_name').val();
+		var base=$('#base').html();
+		$.post(base+'/ajaxauth/updateusername',{id:id,first_name:first_name,last_name:last_name},function(d){
+			//
+		});
+	});
 });

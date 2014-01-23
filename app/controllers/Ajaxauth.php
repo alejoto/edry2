@@ -213,4 +213,40 @@ class Ajaxauth extends BaseController {
 		}
 		
 	}
+
+	public function postChangepassword () {
+		$id=$_POST['id'];
+		$pwd=$_POST['pwd'];
+		try {
+			$user = Sentry::findUserById($id);
+			$user->password=$pwd;
+			if ($user->save()) {
+				return 1;
+			}
+			else {return 2;}
+		}
+		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+		{
+			echo 'User was not found.';
+		}
+	}
+
+	public function postUpdateusername () {
+		$id=$_POST['id'];
+		$first_name=$_POST['first_name'];
+		$last_name=$_POST['last_name'];
+		try {
+			$user = Sentry::findUserById($id);
+			$user->first_name=$first_name;
+			$user->last_name=$last_name;
+			if ($user->save()) {
+				return 1;
+			}
+			else {return 2;}
+		}
+		catch (Cartalyst\Sentry\Users\UserNotFoundException $e)
+		{
+			echo 'User was not found.';
+		}
+	}
 }
