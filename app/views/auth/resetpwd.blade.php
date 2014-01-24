@@ -5,11 +5,14 @@
 <div class="row-fluid">
     <div class="offset3 span6">
         <h1>Password reset</h1>
-        @if($_GET['key']=='wrong')
-        <div class="alert alert-error">Wrong reset key, try reseting your password again</div>
-        @elseif ($_GET['key']=='noexist') 
-        <div class="alert alert-error">The entered email does not exist in our database, please verify</div>
+        @if(isset($_GET['mssg']))
+            @if($_GET['mssg']=='wrong')
+            <div class="alert alert-error">Wrong reset key, try reseting your password again</div>
+            @elseif ($_GET['mssg']=='noexist') 
+            <div class="alert alert-error">The entered email does not exist in our database, please verify</div>
+            @endif
         @endif
+            
         
         
 		{{ Form::open(array('url' => 'ajaxauth/changepwd')) }}
@@ -69,9 +72,6 @@
                 <a href="{{ url('/')}}">Tasking Easy</a> site
             </div>
         </div>
-
-
-        
     </div>
 </div>
 

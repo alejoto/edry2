@@ -338,7 +338,7 @@ $(function(){
 		e.preventDefault();
 		//$('#resetpassword_label').hide();
 		$('#activate_subscribe_form').hide('fast');
-		$('#start_subscribe').hide('fast');
+		//$('#start_subscribe').hide('fast');
 		$('#resetpasswordrequest').show('fast');
 		
 	});
@@ -351,7 +351,7 @@ $(function(){
 		$('#email_to_be_reseted').val('');
 		$('#confirm_email_to_be_reseted').val('');
 		$('#resetpassword_label').html('');
-		$('#start_subscribe').show('fast');
+		//$('#start_subscribe').show('fast');
 		$('#resetpasswordrequest').hide('fast');
 	});
 
@@ -387,7 +387,7 @@ $(function(){
 					$('#progress_bar_for_reset_pwd').hide();
 					$('#reset_pwd_btns').show();
 
-					$('#start_subscribe').show('fast');
+					//$('#start_subscribe').show('fast');
 					$('#resetpasswordrequest').hide('fast');
 				}
 				else if (d==2) {

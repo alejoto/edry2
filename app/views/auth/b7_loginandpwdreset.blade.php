@@ -1,4 +1,4 @@
-logging in
+log in
 <br>
 
 <input id='emaillogin' type="email"> Email <br>
@@ -33,6 +33,8 @@ Forgot your password?  not to be worried about.
 	</spam>
 </div>
 <div id="resetpassword_label"></div>
+Warning: mail configuration MUST BE PROPERLY SET in order to enable this password reset method. <br>
+Check app/config/mail.php
 <br>
 <br>
 <br>

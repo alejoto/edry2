@@ -22,7 +22,13 @@
 				<div id="grouppermissions{{$g->id}}">
 					<?php $i=0; ?>
 					@foreach($g->permissions as $k=>$p)
-						{{$k.':'.$p}},
+						@if($p==1)
+							@if($i!=0)
+							-
+							@endif
+						{{$k}}
+						@endif
+						
 						<?php 
 						if ($p==1) {
 							$arraykeys[$i]=$k;

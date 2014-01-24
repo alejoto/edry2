@@ -88,6 +88,12 @@ class Ajaxauth extends BaseController {
 		    // Find the group using the group id
 		    $group = Sentry::findGroupById($id);
 
+		    //Resetting group permissions in order to remove deprecated ones.
+		    foreach ($group->getPermissions() as $key => $value) {
+		    	$reset[$key]=0;
+		    }
+		    $group->permissions=$reset;$group->save();
+
 		    // Update the group details
 		    $group->name = $editedname;
 		    $group->permissions = $permission;
@@ -290,15 +296,21 @@ class Ajaxauth extends BaseController {
 		try{
 			$user = Sentry::findUserByLogin($email);
 			if ($user->checkResetPasswordCode($key)) {
-				$credentials = array(
-		        'email'    => $email,
-		        'password' => $pwd,
-		    	);
-		    	//$user = Sentry::authenticate($credentials, false);
-			 	return Redirect::to('auth/logged');
+				if ($user->attemptResetPassword($key,$pwd)) {
+					$credentials = array(
+			        'email'    => $email,
+			        'password' => $pwd,
+			    	);
+			    	$user = Sentry::authenticate($credentials, false);
+				 	return Redirect::to('auth/logged');//Change to the login page
+				}
+				else {
+					//password reset failed
+				}
+					
 			}
 			else{
-				return Redirect::to('auth/resetpwd?mssg=wrong');
+				return Redirect::to('auth/resetpwd?key='.$key.'&mssg=wrong');
 			}
 		}
 		catch(Cartalyst\Sentry\Users\UserNotFoundException $e){
