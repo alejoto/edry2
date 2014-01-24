@@ -318,4 +318,33 @@ class Ajaxauth extends BaseController {
 		}
 		
 	}
+
+	public function postEditusergroup () {
+		$id=$_POST['id'];
+		$g=$_POST['group'];
+
+		try
+		{
+			$user = Sentry::findUserById($id);// Find the user using the user id
+			$adminGroup = Sentry::findGroupById($g);// Find the group using the group id
+			//finding current group
+			$current=$user->groups()->first()->id;
+			$removegroup = Sentry::findGroupById($current);
+			$user->removeGroup($removegroup);
+			//PENDING TO FIND CURRENT USER GROUP AND ITS ID IN ORDER TO REMOVE
+			//AS NO USER CAN HAVE TWO OR MORE GROUPS. 
+			if ($user->addGroup($adminGroup))// Assign the group to the user
+		    {
+		        return 1;
+		    }
+		    else
+		    {
+		        // Group was not assigned
+		    }
+		}
+		catch (Cartalyst\Sentry\Users\UserNotFoundException $e) { echo 'User was not found.'; }
+		catch (Cartalyst\Sentry\Groups\GroupNotFoundException $e) { echo 'Group was not found.'; }
+
+		//return 1;
+	}
 }

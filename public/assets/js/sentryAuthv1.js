@@ -402,4 +402,47 @@ $(function(){
 			});
 		}	
 	});
+	
+	//users on group edition
+	function editusergroup(id) {
+		$('#editusergroup'+id).click(function(e){
+			e.preventDefault();
+			$('#usergroupactive'+id).hide();
+			$('#usergrouplist'+id).show();
+			$(this).hide();
+			$('#editusergroupbuttons'+id).show();
+		});
+	}
+
+	function canceleditusergroup(id) {
+		$('#canceleditusergroup'+id).click(function(e){
+			e.preventDefault();
+			$('#usergroupactive'+id).show();
+			$('#usergrouplist'+id).hide();
+			$('#editusergroup'+id).show();
+			$('#editusergroupbuttons'+id).hide();
+		});
+	}
+
+	function confirmeditusergroup(id){
+		$('#confirmeditusergroup'+id).click(function(e){
+			e.preventDefault();
+			var group=$('#usergroupselect'+id).val();
+			var base=$('#base').html();
+			$.post(base+'/ajaxauth/editusergroup',{id:id,group:group},function(d){
+				if (d==1) {
+					location.reload();
+				}
+				//$('#confirmeditusergroup'+id).hide();
+			});
+		});
+	}
+
+	$('.editusergroup').each(function(){
+		var id=$(this).attr('id')
+		id=id.replace('editusergroup','');
+		editusergroup(id);
+		canceleditusergroup(id);
+		confirmeditusergroup(id);
+	});
 });
