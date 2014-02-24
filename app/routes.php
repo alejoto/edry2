@@ -19,3 +19,4 @@ Route::get('/', function()
 
 Route::controller('auth','AuthController');
 Route::controller('ajaxauth','Ajaxauth');
+Route::controller('ajax','AjaxController');

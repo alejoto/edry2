@@ -11,6 +11,7 @@ Wellcome.  If you can see this page you have succesfully installed:
     	<li>Timepicker bootstrap <input type="text" class='timepicker'></li>
     	<li>HMD validator (this example accepts only numbers)<input type="text" id='onlynumbers'></li>
     	<li>Twitter Bootstrap version 2.3</li>
+        <li>Standard AjaxController (route 'ajax') for all post requests</li>
         <li>amCharts version 3.0</li>
     	<li>Stylish-portfolio.zip: one of the best twitter bootstrap 3.0 templates ever made (support docs).</li>
     	<li>Generator (command line tools for laravel)</li>
