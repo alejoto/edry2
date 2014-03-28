@@ -76,6 +76,27 @@ function valid_email(input,message) {
 	});
 }
 
+/*
+| Function name: drawer_section
+| Action: enables two different link buttons to hide / show
+|         segments of web page.  Triggered with snippet "drawer"
+*/
+function drawer_section(section) {
+    $('#open_drawer_'+section).click(function(e){
+        e.preventDefault();
+        $('#'+section).show('fast');
+        $(this).hide('fast');
+        $('#close_drawer_'+section).show('fast');
+    });
+
+    $('#close_drawer_'+section).click(function(e){
+        e.preventDefault();
+        $('#'+section).hide('fast');
+        $(this).hide('fast');
+        $('#open_drawer_'+section).show('fast');
+    });
+}
+
 //Field verification for subscribing page
 function pwd_match(email,pwd,confirm,mssg,btn) {
     //hide confirm field and subscribe
